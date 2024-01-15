@@ -9,10 +9,24 @@ const endScreenEl = document.getElementById("end-screen");
 const feedbackEl = document.getElementById("feedback");
 const finalScore = document.getElementById("final-score");
 
-let currentQuestionIndex = 0;
+// Initialise variables
+var currentQuestionIndex = 0;
+var secondesLeft = 60;
+var score = 0;
+var timerInterval;
 
-function setQuestion() {
+// event listener to start quiz
+startButtonEl.addEventListener("click", startQuiz);
+
+// start game
+function startQuiz() {
   timer();
+  setQuestion();
+  setScore();
+}
+
+// set the questions
+function setQuestion() {
   startScreenEl.classList.add("hide");
   questionsContainerEl.classList.remove("hide");
   feedbackEl.classList.remove("hide");
@@ -28,67 +42,45 @@ function setQuestion() {
   });
 }
 
+// select a answer
 function selectAnswer(selectedOption) {
   let currentQuestion = questions[currentQuestionIndex];
   if (selectedOption === currentQuestion.answer) {
     feedbackEl.textContent = "Correct!";
   } else {
     feedbackEl.textContent = "Wrong!";
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-      setQuestion();
-    } else {
-      questionsContainerEl.classList.add("hide");
-      feedbackEl.classList.add("hide");
-      endScreenEl.classList.remove("hide");
-    }
+    secondesLeft -= 10;
+  }
+
+  currentQuestionIndex++;
+
+  if (currentQuestionIndex < questions.length) {
+    setQuestion();
+  } else {
+    questionsContainerEl.classList.add("hide");
+    feedbackEl.classList.add("hide");
+    endScreenEl.classList.remove("hide");
+    clearInterval(timerInterval);
   }
 }
 
 // timer
-var secondesLeft = 5;
-
 function timer() {
-  let timerInterval = setInterval(function () {
+  timerInterval = setInterval(function () {
     secondesLeft--;
     timerEl.textContent = secondesLeft;
     if (secondesLeft === 0) {
+      alert("You run out of time!");
       clearInterval(timerInterval);
-      questionsContainerEl.classList.add("hide");
-      feedbackEl.classList.add("hide");
-      endScreenEl.classList.remove("hide");
+      location.reload(); // Reload the page
+    } else {
+      setScore();
     }
   }, 1000);
 }
 
-function score() {
-  finalScore.textContent = secondesLeft;
+// set the score based on the seconds left from timer
+function setScore() {
+  score = secondesLeft;
+  finalScore.textContent = score;
 }
-
-// time out message and choice to try again or quit
-// =======================================
-// function timerRunOutMessage() {
-//   reset();
-
-//   let tryAgainButtons = ["Yes", "No"];
-
-//   questionTitleEl.textContent = "You ran out of time, Would you like to try again?";
-
-//   tryAgainButtons.forEach((option, index) => {
-//     let button = document.createElement("button");
-//     button.textContent = option;
-//     choicesEl.appendChild(button);
-//     button.addEventListener("click", ()=>{});
-//   });
-// }
-
-// clear question if the time runs out
-function reset() {
-  while (choicesEl.firstChild) {
-    feedbackEl.classList.add("hide");
-    choicesEl.removeChild(choicesEl.firstChild);
-  }
-}
-
-// event listeners
-startButtonEl.addEventListener("click", setQuestion);
