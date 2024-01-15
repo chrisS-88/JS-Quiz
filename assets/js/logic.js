@@ -7,11 +7,14 @@ const questionTitleEl = document.getElementById("question-title");
 const choicesEl = document.getElementById("choices");
 const endScreenEl = document.getElementById("end-screen");
 const feedbackEl = document.getElementById("feedback");
-const finalScore = document.getElementById("final-score");
+const finalScoreEl = document.getElementById("final-score");
+const initialsInput = document.getElementById("initials");
+const submitEl = document.getElementById("submit");
+const highscores = document.getElementById("highscores");
 
 // Initialise variables
 var currentQuestionIndex = 0;
-var secondesLeft = 60;
+var secondesLeft = 50;
 var score = 0;
 var timerInterval;
 
@@ -30,12 +33,12 @@ function setQuestion() {
   startScreenEl.classList.add("hide");
   questionsContainerEl.classList.remove("hide");
   feedbackEl.classList.remove("hide");
-  let currentQuestion = questions[currentQuestionIndex];
+  var currentQuestion = questions[currentQuestionIndex];
   questionTitleEl.innerText = currentQuestion.question;
 
   choicesEl.innerHTML = "";
   currentQuestion.options.forEach((option, index) => {
-    let button = document.createElement("button");
+    var button = document.createElement("button");
     button.textContent = option;
     choicesEl.appendChild(button);
     button.addEventListener("click", () => selectAnswer(option));
@@ -44,15 +47,14 @@ function setQuestion() {
 
 // select a answer
 function selectAnswer(selectedOption) {
-  let currentQuestion = questions[currentQuestionIndex];
+  var currentQuestion = questions[currentQuestionIndex];
+  currentQuestionIndex++;
   if (selectedOption === currentQuestion.answer) {
     feedbackEl.textContent = "Correct!";
   } else {
     feedbackEl.textContent = "Wrong!";
     secondesLeft -= 10;
   }
-
-  currentQuestionIndex++;
 
   if (currentQuestionIndex < questions.length) {
     setQuestion();
@@ -69,9 +71,9 @@ function timer() {
   timerInterval = setInterval(function () {
     secondesLeft--;
     timerEl.textContent = secondesLeft;
-    if (secondesLeft === 0) {
-      alert("You run out of time!");
+    if (secondesLeft <= 0) {
       clearInterval(timerInterval);
+      alert("You run out of time!");
       location.reload(); // Reload the page
     } else {
       setScore();
@@ -82,5 +84,20 @@ function timer() {
 // set the score based on the seconds left from timer
 function setScore() {
   score = secondesLeft;
-  finalScore.textContent = score;
+  finalScoreEl.textContent = score;
 }
+
+// set submit info into local storage
+function submit() {
+  var initials = initialsInput.value.toUpperCase();
+  var results = [
+    {
+      initials: initials,
+      score: score,
+    },
+  ];
+
+  localStorage.setItem("score", JSON.stringify(results));
+}
+
+submitEl.addEventListener("click", submit);
