@@ -62,11 +62,14 @@ function selectAnswer(selectedOption) {
     audioWrong.play();
     secondesLeft -= 10;
 
-    if (secondesLeft < 0) {
-      secondesLeft = 0;
+    // CHECK IN CLASS?
+    // =================
+    if (secondesLeft <= 0) {
+      secondesLeft = 1;
+      setScore();
     }
+    // =================
   }
-  setScore();
 
   if (currentQuestionIndex < questions.length) {
     setQuestion();
@@ -112,12 +115,15 @@ function submit() {
     oldList = [];
   }
 
-  submitMessageEl.textContent = "Successfully submitted";
-
-  oldList.push({
-    initials: initials,
-    score: score,
-  });
+  if (initials === "") {
+    submitMessageEl.textContent = "Please enter your initials";
+  } else {
+    submitMessageEl.textContent = "Successfully submitted";
+    oldList.push({
+      initials: initials,
+      score: score,
+    });
+  }
 
   localStorage.setItem("score", JSON.stringify(oldList));
 }
