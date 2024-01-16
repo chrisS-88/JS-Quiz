@@ -90,7 +90,6 @@ function timer() {
     timerEl.textContent = secondesLeft;
     if (secondesLeft <= 0) {
       clearInterval(timerInterval);
-      // alert("You run out of time!");
       setScore();
       questionsContainerEl.classList.add("hide");
       feedbackEl.classList.add("hide");
@@ -124,6 +123,12 @@ function submit() {
       initials: initials,
       score: score,
     });
+    // prevent user from submitting more than once
+    submitEl.disabled = true;
+    // redirect to highscores page
+    setTimeout(function () {
+      window.location.href = "highscores.html";
+    }, 1000);
   }
 
   localStorage.setItem("score", JSON.stringify(oldList));
