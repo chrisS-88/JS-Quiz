@@ -12,6 +12,8 @@ The high scores page allows the scores to be saved via local storage, the clear 
 
 ![Project screenshot](assets/images/screenshot_1.png)
 ![Project screenshot](assets/images/screenshot_2.png)
+![Project screenshot](assets/images/screenshot_3.png)
+![Project screenshot](assets/images/screenshot_4.png)
 
 # Deployed app
 
