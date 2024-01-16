@@ -11,10 +11,11 @@ const finalScoreEl = document.getElementById("final-score");
 const initialsInput = document.getElementById("initials");
 const submitEl = document.getElementById("submit");
 const highscores = document.getElementById("highscores");
+const submitMessageEl = document.getElementById("submit-message");
 
 // Initialise variables
 var currentQuestionIndex = 0;
-var secondesLeft = 50;
+var secondesLeft = 5;
 var score = 0;
 var timerInterval;
 
@@ -35,7 +36,6 @@ function setQuestion() {
   feedbackEl.classList.remove("hide");
   var currentQuestion = questions[currentQuestionIndex];
   questionTitleEl.innerText = currentQuestion.question;
-
   choicesEl.innerHTML = "";
   currentQuestion.options.forEach((option, index) => {
     var button = document.createElement("button");
@@ -54,11 +54,14 @@ function selectAnswer(selectedOption) {
   } else {
     feedbackEl.textContent = "Wrong!";
     secondesLeft -= 10;
+    console.log(secondesLeft);
   }
+  setScore();
 
   if (currentQuestionIndex < questions.length) {
     setQuestion();
   } else {
+    timerEl.textContent = secondesLeft;
     questionsContainerEl.classList.add("hide");
     feedbackEl.classList.add("hide");
     endScreenEl.classList.remove("hide");
@@ -74,9 +77,10 @@ function timer() {
     if (secondesLeft <= 0) {
       clearInterval(timerInterval);
       alert("You run out of time!");
-      location.reload(); // Reload the page
-    } else {
       setScore();
+      questionsContainerEl.classList.add("hide");
+      feedbackEl.classList.add("hide");
+      endScreenEl.classList.remove("hide");
     }
   }, 1000);
 }
@@ -90,14 +94,22 @@ function setScore() {
 // set submit info into local storage
 function submit() {
   var initials = initialsInput.value.toUpperCase();
-  var results = [
-    {
-      initials: initials,
-      score: score,
-    },
-  ];
+  var storedResults = localStorage.getItem("score");
+  var oldList;
+  if (storedResults !== null) {
+    oldList = JSON.parse(storedResults);
+  } else {
+    oldList = [];
+  }
 
-  localStorage.setItem("score", JSON.stringify(results));
+  submitMessageEl.textContent = "Successfully submitted";
+
+  oldList.push({
+    initials: initials,
+    score: score,
+  });
+
+  localStorage.setItem("score", JSON.stringify(oldList));
 }
 
 submitEl.addEventListener("click", submit);
