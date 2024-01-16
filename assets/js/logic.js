@@ -90,7 +90,7 @@ function timer() {
     timerEl.textContent = secondesLeft;
     if (secondesLeft <= 0) {
       clearInterval(timerInterval);
-      alert("You run out of time!");
+      // alert("You run out of time!");
       setScore();
       questionsContainerEl.classList.add("hide");
       feedbackEl.classList.add("hide");
