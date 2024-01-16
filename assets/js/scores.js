@@ -7,16 +7,13 @@ function getResults() {
   var storedResults = localStorage.getItem("score");
   if (storedResults !== null) {
     var items = JSON.parse(storedResults);
-    console.log(items);
     displayHighscores(items);
   }
 }
 
 // display results into list items
 function displayHighscores(items) {
-  console.log(items);
   items.forEach(function (item) {
-    console.log(item);
     var liElement = document.createElement("li");
     liElement.textContent = "Name: " + item.initials + " / " + " Score: " + item.score;
     highscoresEl.appendChild(liElement);

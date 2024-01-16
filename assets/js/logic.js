@@ -62,11 +62,11 @@ function selectAnswer(selectedOption) {
     audioWrong.play();
     secondesLeft -= 10;
 
-    // CHECK IN CLASS?
+    // CHECK IN CLASS ??
     // =================
     if (secondesLeft <= 0) {
       secondesLeft = 1;
-      setScore();
+      // setScore();
     }
     // =================
   }
