@@ -70,6 +70,7 @@ function selectAnswer(selectedOption) {
     }
     // =================
   }
+  setScore();
 
   if (currentQuestionIndex < questions.length) {
     setQuestion();

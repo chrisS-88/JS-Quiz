@@ -7,3 +7,14 @@ The project is a multiple choice quiz built with HTML, CSS and JavaScript. It fe
 At the end of the quiz there is a option to enter the players initials and save the score to the highscores page.
 
 The high scores page allows the scores to be saved via local storage, the clear button will clear the local storage and reset the high scores.
+
+# Screenshot
+
+![Project screenshot](assets/images/screenshot_1.png)
+![Project screenshot](assets/images/screenshot_2.png)
+
+# Deployed app
+
+# Licence
+
+N/A
