@@ -15,6 +15,8 @@ The high scores page allows the scores to be saved via local storage, the clear 
 
 # Deployed app
 
+https://chriss-88.github.io/JS-Quiz/
+
 # Licence
 
 N/A
