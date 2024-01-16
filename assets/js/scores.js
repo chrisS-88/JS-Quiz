@@ -1,6 +1,8 @@
+// Initialise ids
 const highscoresEl = document.getElementById("highscores");
 const clearBtn = document.getElementById("clear");
 
+// check results from local storage
 function getResults() {
   var storedResults = localStorage.getItem("score");
   if (storedResults !== null) {
@@ -10,6 +12,7 @@ function getResults() {
   }
 }
 
+// display results into list items
 function displayHighscores(items) {
   console.log(items);
   items.forEach(function (item) {
@@ -20,6 +23,7 @@ function displayHighscores(items) {
   });
 }
 
+// clear local storage and scoreboard
 function clearResults() {
   localStorage.clear();
 
@@ -30,5 +34,6 @@ function clearResults() {
   }
 }
 
+// call results and add event listener to 'clear button'
 getResults();
 clearBtn.addEventListener("click", clearResults);

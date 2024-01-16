@@ -15,9 +15,13 @@ const submitMessageEl = document.getElementById("submit-message");
 
 // Initialise variables
 var currentQuestionIndex = 0;
-var secondesLeft = 5;
+var secondesLeft = 60;
 var score = 0;
 var timerInterval;
+
+// Initialise sound variables
+const audioCorrect = new Audio("assets/sfx/correct.wav");
+const audioWrong = new Audio("assets/sfx/incorrect.wav");
 
 // event listener to start quiz
 startButtonEl.addEventListener("click", startQuiz);
@@ -49,12 +53,18 @@ function setQuestion() {
 function selectAnswer(selectedOption) {
   var currentQuestion = questions[currentQuestionIndex];
   currentQuestionIndex++;
+
   if (selectedOption === currentQuestion.answer) {
     feedbackEl.textContent = "Correct!";
+    audioCorrect.play();
   } else {
     feedbackEl.textContent = "Wrong!";
+    audioWrong.play();
     secondesLeft -= 10;
-    console.log(secondesLeft);
+
+    if (secondesLeft < 0) {
+      secondesLeft = 0;
+    }
   }
   setScore();
 
@@ -112,4 +122,5 @@ function submit() {
   localStorage.setItem("score", JSON.stringify(oldList));
 }
 
+// event listener for 'submit' button
 submitEl.addEventListener("click", submit);
